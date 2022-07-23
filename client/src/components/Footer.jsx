@@ -12,7 +12,7 @@ import { mobile } from "../responsive";
 
 const Container = styled.div`
   display: flex;
-  ${mobile({ flexDirection: "column" })}
+  ${mobile({flexDirection: "column"})}
 `;
 
 const Left = styled.div`
@@ -47,7 +47,7 @@ const SocialIcon = styled.div`
 const Center = styled.div`
   flex: 1;
   padding: 20px;
-  ${mobile({ display: "none" })}
+  ${mobile({display: "none"})}
 `;
 
 const Title = styled.h3`
@@ -70,8 +70,7 @@ const ListItem = styled.li`
 const Right = styled.div`
   flex: 1;
   padding: 20px;
-  ${mobile({ backgroundColor: "#fff8f8" })}
-
+  ${mobile({backgroundColor: "#fff8f8"})}
 `;
 
 const ContactItem = styled.div`
@@ -88,7 +87,7 @@ const Footer = () => {
   return (
     <Container>
       <Left>
-        <Logo>LAMA.</Logo>
+        <Logo>MyKart.</Logo>
         <Desc>
           There are many variations of passages of Lorem Ipsum available, but
           the majority have suffered alteration in some form, by injected
@@ -127,13 +126,13 @@ const Footer = () => {
       <Right>
         <Title>Contact</Title>
         <ContactItem>
-          <Room style={{marginRight:"10px"}}/> 622 Dixie Path , South Tobinchester 98336
+          <Room style={{marginRight:"10px"}}/> Maharastra, Trombay, Mumbai-400088.
         </ContactItem>
         <ContactItem>
-          <Phone style={{marginRight:"10px"}}/> +1 234 56 78
+          <Phone style={{marginRight:"10px"}}/> +91-9619876623
         </ContactItem>
         <ContactItem>
-          <MailOutline style={{marginRight:"10px"}} /> contact@lama.dev
+          <MailOutline style={{marginRight:"10px"}} /> altafshaikhmd6@gmail.com
         </ContactItem>
         <Payment src="https://i.ibb.co/Qfvn4z6/payment.png" />
       </Right>

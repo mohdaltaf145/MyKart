@@ -1,9 +1,11 @@
 const mongoose = require("mongoose");
 
+//creating user schema
 const CartSchema = new mongoose.Schema(
   {
-    userId: { type: String, required: true },
-    products: [
+    //our properties
+    userId: { type: String, required: true }, //unique is true because we cannot create same username
+    Products: [
       {
         productId: {
           type: String,

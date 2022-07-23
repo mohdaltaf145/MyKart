@@ -1,11 +1,13 @@
 const mongoose = require("mongoose");
 
+//creating product schema in db
 const ProductSchema = new mongoose.Schema(
   {
-    title: { type: String, required: true, unique: true },
+    //our properties
+    title: { type: String, required: true, unique: true }, //unique is true because we cannot create same username
     desc: { type: String, required: true },
     img: { type: String, required: true },
-    categories: { type: Array },
+    categories: { type: Array }, //we can put categories inside array
     size: { type: Array },
     color: { type: Array },
     price: { type: Number, required: true },

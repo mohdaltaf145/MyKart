@@ -1,22 +1,24 @@
 import { Add, Remove } from "@material-ui/icons";
-import { useSelector } from "react-redux";
 import styled from "styled-components";
 import Announcement from "../components/Announcement";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
-import { mobile } from "../responsive";
-import StripeCheckout from "react-stripe-checkout";
+import { useSelector } from "react-redux";
+import StripeCheckout from "react-stripe-checkout"
 import { useEffect, useState } from "react";
-import { userRequest } from "../requestMethods";
-import { useHistory } from "react-router";
+import {userRequest} from "../requestMethods"
+import { useHistory } from "react-router-dom";
+import {mobile} from "../responsive"
 
-const KEY = process.env.REACT_APP_STRIPE;
+// const KEY = process.env.REACT_APP_STRIPE;
+const KEY = "pk_test_51KqmYMSI2FRuy9R2WHwjJIVBtO56k3WKlCrBkEXktnCPPeM2L3ylIeT2qhZpSjD8Q8tRWQnGoebhh6jUYiCrG8Y800MMdCpQwm"
+console.log(KEY)
 
 const Container = styled.div``;
 
 const Wrapper = styled.div`
   padding: 20px;
-  ${mobile({ padding: "10px" })}
+  ${mobile({padding: "10px"})}
 `;
 
 const Title = styled.h1`
@@ -42,7 +44,7 @@ const TopButton = styled.button`
 `;
 
 const TopTexts = styled.div`
-  ${mobile({ display: "none" })}
+  ${mobile({diplay: "none"})}
 `;
 const TopText = styled.span`
   text-decoration: underline;
@@ -53,7 +55,7 @@ const TopText = styled.span`
 const Bottom = styled.div`
   display: flex;
   justify-content: space-between;
-  ${mobile({ flexDirection: "column" })}
+  ${mobile({flexDirection: "column"})}
 `;
 
 const Info = styled.div`
@@ -63,7 +65,7 @@ const Info = styled.div`
 const Product = styled.div`
   display: flex;
   justify-content: space-between;
-  ${mobile({ flexDirection: "column" })}
+  ${mobile({flexDirection: "column"})}
 `;
 
 const ProductDetail = styled.div`
@@ -112,13 +114,13 @@ const ProductAmountContainer = styled.div`
 const ProductAmount = styled.div`
   font-size: 24px;
   margin: 5px;
-  ${mobile({ margin: "5px 15px" })}
+  ${mobile({margin: "5px 15px"})}
 `;
 
 const ProductPrice = styled.div`
   font-size: 30px;
   font-weight: 200;
-  ${mobile({ marginBottom: "20px" })}
+  ${mobile({marginBottom: "20px"})}
 `;
 
 const Hr = styled.hr`
@@ -161,27 +163,31 @@ const Button = styled.button`
 
 const Cart = () => {
   const cart = useSelector((state) => state.cart);
-  const [stripeToken, setStripeToken] = useState(null);
-  const history = useHistory();
 
+  const[stripeToken, setStripeToken] = useState(null)
+  const history = useHistory()
+  //get token from stripe
   const onToken = (token) => {
-    setStripeToken(token);
-  };
+    setStripeToken(token)
+  }
 
+  console.log(stripeToken)
   useEffect(() => {
     const makeRequest = async () => {
-      try {
+      try{
         const res = await userRequest.post("/checkout/payment", {
           tokenId: stripeToken.id,
-          amount: 500,
+          amount: cart.total * 100,
         });
-        history.push("/success", {
-          stripeData: res.data,
-          products: cart, });
-      } catch {}
+        //after the successfull response go to success page
+        history.push("/success", {data: res.data});
+      }catch(err) {
+
+      }
     };
-    stripeToken && makeRequest();
-  }, [stripeToken, cart.total, history]);
+    stripeToken && makeRequest()
+  },[stripeToken, cart.total, history])
+
   return (
     <Container>
       <Navbar />
@@ -189,7 +195,7 @@ const Cart = () => {
       <Wrapper>
         <Title>YOUR BAG</Title>
         <Top>
-          <TopButton>CONTINUE SHOPPING</TopButton>
+          <TopButton type="filled">CONTINUE SHOPPING</TopButton>
           <TopTexts>
             <TopText>Shopping Bag(2)</TopText>
             <TopText>Your Wishlist (0)</TopText>
@@ -199,7 +205,7 @@ const Cart = () => {
         <Bottom>
           <Info>
             {cart.products.map((product) => (
-              <Product>
+              <Product key={product._id}>
                 <ProductDetail>
                   <Image src={product.img} />
                   <Details>
@@ -221,9 +227,7 @@ const Cart = () => {
                     <ProductAmount>{product.quantity}</ProductAmount>
                     <Remove />
                   </ProductAmountContainer>
-                  <ProductPrice>
-                    $ {product.price * product.quantity}
-                  </ProductPrice>
+                  <ProductPrice>$ {product.price*product.quantity}</ProductPrice>
                 </PriceDetail>
               </Product>
             ))}
@@ -248,12 +252,12 @@ const Cart = () => {
               <SummaryItemPrice>$ {cart.total}</SummaryItemPrice>
             </SummaryItem>
             <StripeCheckout
-              name="Lama Shop"
+              name="MyKart"
               image="https://avatars.githubusercontent.com/u/1486366?v=4"
               billingAddress
               shippingAddress
               description={`Your total is $${cart.total}`}
-              amount={cart.total * 100}
+              amount={cart.total*100}
               token={onToken}
               stripeKey={KEY}
             >
@@ -268,3 +272,4 @@ const Cart = () => {
 };
 
 export default Cart;
+
